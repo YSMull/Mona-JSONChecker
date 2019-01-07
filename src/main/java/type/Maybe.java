@@ -21,8 +21,7 @@ public class Maybe<A> {
 
     public static <A> A fromJust(Maybe<A> m) {
         if (m == NOTHING) {
-            // ??
-            return null;
+            throw new RuntimeException("fromJust got Nothing");
         } else {
             return m.value;
         }

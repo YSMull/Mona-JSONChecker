@@ -1,43 +1,42 @@
 package chkr;
 
 import com.alibaba.fastjson.JSON;
-import type.Maybe;
-import util.Util;
+import type.CheckedValue;
+import util.ObjChkrUtil;
 
 import java.util.*;
 
+import static type.CheckedValue.*;
+import static util.ObjChkrUtil.parseError;
+
 public class C {
 
-//    public static Chkr Mixin(Chkr... chkrs) {
-//        return Chkr.match((objMap, errMsgs) -> {
-//            Map objectMap = (Map) objMap;
-//            Map<String, Object> filterMap = new HashMap<>();
-//            for (Chkr chkr : chkrs) {
-//                List<String> subErr = new ArrayList<>();
-//                type.Maybe resultMap = chkr.check(objectMap, subErr);
-//                if (resultMap != type.Maybe.NOTHING) {
-//                    try {
-//                        filterMap.putAll(Map<String, Object>) type.Maybe.fromJust(resultMap));
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//            return filterMap;
-//        }, Chkr.Any);
-//    }
+    public static Chkr Mixin(Chkr... chkrs) {
+        return Chkr.compose(objMap -> {
+            Map objectMap = (Map) objMap;
+            Map<String, Object> filterMap = new HashMap<>();
+            for (Chkr chkr : chkrs) {
+                CheckedValue result = chkr.check(objectMap);
+                if (isFail(result)) {
+                    return result;
+                } else {
+                    filterMap.putAll((Map<String, Object>) result.getJustValue());
+                }
+            }
+            return pure(filterMap);
+        }, T.Any);
+    }
 
     public static Chkr Or(Chkr... chkrs) {
-        return Chkr.match((value, errMsgs) -> {
+        return Chkr.compose(value -> {
             boolean matchOne = false;
-            Maybe result = null;
+            CheckedValue result = null;
             List<String> allSubErrMsgs = new ArrayList<>();
             for (Chkr chkr : chkrs) {
                 // filter
-                List<String> subMsgs = new ArrayList<>();
-                result = chkr.check(value, subMsgs);
-                if (result == Maybe.NOTHING) {
-                    allSubErrMsgs.addAll(subMsgs);
+                result = chkr.check(value);
+                if (CheckedValue.isFail(result)) {
+                    allSubErrMsgs.addAll(result.getPath());
                 } else {
                     matchOne = true;
                     break;
@@ -46,69 +45,55 @@ public class C {
             if (matchOne) {
                 return result;
             } else {
-                errMsgs.add(String.join(" and ", allSubErrMsgs));
-                return Maybe.NOTHING;
+                parseError(allSubErrMsgs);
+                return fail(String.join(" , ", allSubErrMsgs));
             }
         }, T.Any);
     }
 
-    public static Chkr Obj(Object... args) throws Exception {
-        Map<String, Chkr> chkrMap = Util.parseChkrMap(args);
+    public static Chkr Obj(Object... args) {
+        Map<String, Chkr> chkrMap = ObjChkrUtil.parseChkrMap(args);
         if (chkrMap == null || chkrMap.size() == 0) return null;
-        return Chkr.match((objMap, errMsgs) -> {
-            if (!(objMap instanceof Map)) {
-                errMsgs.add("{{ " + JSON.toJSONString(objMap) + " }} is not an kv");
-                return Maybe.NOTHING;
+        return Chkr.compose(value -> {
+            if (!(value instanceof Map)) {
+                return fail("{{ " + JSON.toJSONString(value) + " }} is not a KV");
             }
-            Map castMap = (Map) objMap;
+            Map valueMap = (Map) value;
             Map<String, Object> filterMap = new HashMap<>();
             Set<String> keys = chkrMap.keySet();
             for (String key : keys) {
                 Chkr keyChkr = chkrMap.get(key);
-                errMsgs.add(key);
-                int idx1 = errMsgs.size();
-                Maybe result = keyChkr.check(castMap.get(key), errMsgs);
-                int idx2 = errMsgs.size();
-                if (result == Maybe.NOTHING) {
-                    return Maybe.NOTHING;
+                CheckedValue result = keyChkr.check(valueMap.get(key));
+                if (isFail(result)) {
+                    return result.addPath(key);
                 } else {
-                    if (idx2 == idx1) {
-                        errMsgs.remove(errMsgs.size()-1);
-                    }
-                    filterMap.put(key, Maybe.fromJust(result));
+                    filterMap.put(key, result.getJustValue());
                 }
             }
-            return Maybe.just(filterMap);
+            return CheckedValue.pure(filterMap);
         }, T.Any);
     }
 
-//    public static Chkr Arr(Chkr typeChkr) {
-//        String chkrName = "Arr";
-//        return T.Any.match(objList -> {
-//            if (!(objList instanceof List)) {
-//                throw new Exception("{{ " + JSON.toJSONString(objList) + " }} is not an Array");
-//            }
-//            List objectList = (List) objList;
-//            for (int i = 0; i < objectList.size(); i++) {
-//                typeChkr.parentChkrName(chkrName).currentIndex(i).check(objectList.get(i));
-//            }
-//            return objList;
-//        }).called(chkrName);
-//    }
+    public static Chkr Arr(Chkr typeChkr) {
+        return Chkr.compose(objList -> {
+            if (!(objList instanceof List)) {
+                return fail("{{ " + JSON.toJSONString(objList) + " }} is not an Array");
+            }
+            List objectList = (List) objList;
+            for (int i = 0; i < objectList.size(); i++) {
+                CheckedValue result = typeChkr.check(objectList.get(i));
+                if (isFail(result)) {
+                    return result.addPath("[" + i + "]");
+                }
+            }
+            return pure(objList);
+        }, Chkr.id);
+    }
 
-//    public static Chkr Optional(Chkr typeChkr) {
-//        return new Chkr().match(object -> {
-//            if (object == null) return null;
-//            return typeChkr.parentChkrName("Optional").check(object);
-//        });
-//    }
-
-//    public static Chkr OrVal(Object... args) {
-//        return new Chkr().match(value -> {
-//            boolean exist = Arrays.asList(args).contains(value);
-//            String argStr = Arrays.stream(args).map(JSON::toJSONString).collect(Collectors.joining(","));
-//            if (!exist) throw new Exception("{{ " + JSON.toJSONString(value) + " }} dose not match OrVal(" + argStr + ")");
-//            return value;
-//        });
-//    }
+    public static Chkr Optional(Chkr typeChkr) {
+        return Chkr.compose(object -> {
+            if (object == null) return null;
+            return typeChkr.check(object);
+        }, Chkr.id);
+    }
 }

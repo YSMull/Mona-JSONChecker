@@ -1,8 +1,7 @@
 import chkr.Chkr;
+import type.CheckedValue;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import static chkr.C.Obj;
@@ -11,7 +10,6 @@ import static chkr.T.*;
 
 public class Test2 {
     public static void main(String[] args) throws Exception {
-        List<String> msg2 = new ArrayList<>();
 
         Object before = Map.of(
                 "userId", 123,
@@ -27,9 +25,6 @@ public class Test2 {
                 )
         );
 
-        // address.person.t is not Bool
-        // address.person.t is not Num
-
         Chkr c = Obj(
                 "userId", Num,
                 "userName", Str,
@@ -42,8 +37,8 @@ public class Test2 {
                         )
                 )
         );
-        c.check(before, msg2);
+        CheckedValue a = c.check(before);
 
-        System.out.println(Arrays.toString(msg2.toArray()));
+        System.out.println(Arrays.toString(a.getPath().toArray()));
     }
 }

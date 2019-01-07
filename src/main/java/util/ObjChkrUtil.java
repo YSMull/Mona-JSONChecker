@@ -42,4 +42,10 @@ public class ObjChkrUtil {
         }
         return null;
     }
+
+    public static <A> List<A> single(A item) {
+        List<A> list = new ArrayList<>();
+        list.add(item);
+        return list;
+    }
 }

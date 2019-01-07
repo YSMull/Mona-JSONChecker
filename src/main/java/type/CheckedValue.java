@@ -1,9 +1,8 @@
 package type;
 
-import function.F;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class CheckedValue<A> {
 
@@ -30,7 +29,7 @@ public class CheckedValue<A> {
         return new CheckedValue(Maybe.NOTHING, List.of(errMsg));
     }
 
-    public CheckedValue<A> bind(F<Object, CheckedValue<A>> checkF) {
+    public CheckedValue<A> bind(Function<Object, CheckedValue<A>> checkF) {
         if (this.value == Maybe.NOTHING) {
             return this;
         } else {

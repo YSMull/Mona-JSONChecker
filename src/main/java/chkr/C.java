@@ -45,8 +45,7 @@ public class C {
             if (matchOne) {
                 return result;
             } else {
-                parseError(allSubErrMsgs);
-                return fail(String.join(" , ", allSubErrMsgs));
+                return fail(String.join(" $$$ ", allSubErrMsgs));
             }
         }, T.Any);
     }

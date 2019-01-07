@@ -1,8 +1,9 @@
 package chkr;
 
-import function.F;
+import com.alibaba.fastjson.JSON;
 import type.CheckedValue;
 
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static type.CheckedValue.fail;
@@ -10,9 +11,9 @@ import static type.CheckedValue.pure;
 
 public class Chkr {
 
-    private F<Object, CheckedValue> checkFn;
+    private Function<Object, CheckedValue> checkFn;
 
-    private Chkr(F<Object, CheckedValue> checkFn) {
+    private Chkr(Function<Object, CheckedValue> checkFn) {
         this.checkFn = checkFn;
     }
 
@@ -26,7 +27,7 @@ public class Chkr {
     /**
      * compose a checkFn and an exist Chkr, return a new Chkr
      */
-    public static Chkr compose(F<Object, CheckedValue> checkFn, Chkr parentChkr) {
+    public static Chkr compose(Function<Object, CheckedValue> checkFn, Chkr parentChkr) {
         return new Chkr(value -> parentChkr.check(value).bind(checkFn));
     }
 
@@ -36,7 +37,7 @@ public class Chkr {
              if (p.test(value)) {
                  return pure(value);
              } else {
-                 return fail("{{ " + (value == null ? "null" : value.toString()) + " }} " + errMsg);
+                 return fail("{{ " + (value == null ? "null" : JSON.toJSONString(value)) + " }} " + errMsg);
              }
         }, parentChkr);
     }

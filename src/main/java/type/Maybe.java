@@ -1,7 +1,6 @@
 package type;
 
-import function.F;
-
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Maybe<A> {
@@ -28,7 +27,7 @@ public class Maybe<A> {
     }
 
     @SuppressWarnings("unchecked")
-    public <B> Maybe<B> bind(F<A, Maybe<B>> f) {
+    public <B> Maybe<B> bind(Function<A, Maybe<B>> f) {
         if (this == NOTHING) {
             return NOTHING;
         } else {

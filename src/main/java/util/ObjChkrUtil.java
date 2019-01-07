@@ -24,23 +24,30 @@ public class ObjChkrUtil {
     }
 
     public static String parseError(List<String> path) {
-        List<List<String>> errors = new ArrayList<>();
-        List<String> error = new ArrayList<>();
-        for (int i = path.size() - 1; i >= 0; i--) {
-            if (path.get(i).startsWith("{{")) {
-                error.add(" = " + path.get(i));
-                errors.add(error);
-                error = new ArrayList<>();
-            } else {
-                error.add(path.get(i));
+        if (path.size() == 1) {
+            String e = path.get(0);
+            List<String> p = Arrays.asList(e.split("\\$\\$\\$and\\$\\$\\$"));
+            return parseError(p);
+        } else {
+            List<List<String>> errors = new ArrayList<>();
+            List<String> error = new ArrayList<>();
+            for (int i = path.size() - 1; i >= 0; i--) {
+                if (path.get(i).startsWith("{{")) {
+                    error.add(" = " + path.get(i));
+                    errors.add(error);
+                    error = new ArrayList<>();
+                } else {
+                    error.add(path.get(i));
+                }
             }
-        }
-        Collections.reverse(errors);
+            Collections.reverse(errors);
 
-        for (List<String> e: errors) {
-            System.out.println(String.join(".", e));
+            StringBuilder result = new StringBuilder();
+            for (List<String> e : errors) {
+                result.append(String.join(".", e).replaceAll("\\.\\[", "[").replaceAll("\\. =", " =").replaceAll("\\$\\$\\$and\\$\\$\\$", " and ")).append("\n");
+            }
+            return result.toString();
         }
-        return null;
     }
 
     public static <A> List<A> single(A item) {

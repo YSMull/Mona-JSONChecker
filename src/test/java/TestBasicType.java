@@ -5,7 +5,7 @@ import java.util.Arrays;
 import static chkr.C.Or;
 import static chkr.T.*;
 
-public class Test {
+public class TestBasicType {
     public static void main(String[] args) {
         Any.check("123");
         Any.check(null);

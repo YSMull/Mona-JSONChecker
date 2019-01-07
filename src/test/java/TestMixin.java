@@ -6,7 +6,7 @@ import static util.DefUtil.kv;
 import static util.DefUtil.list;
 import static util.ObjChkrUtil.parseError;
 
-public class Test4 {
+public class TestMixin {
     public static void main(String[] args) {
         Object testData = kv(
                 "reports", list(
@@ -58,6 +58,6 @@ public class Test4 {
                 )
         ).check(testData);
 
-        parseError(after.getPath());
+        System.out.println(parseError(after.getPath()));
     }
 }

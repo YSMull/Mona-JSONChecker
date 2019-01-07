@@ -1,15 +1,15 @@
 import chkr.Chkr;
 import type.CheckedValue;
 
-import java.util.Arrays;
 import java.util.Map;
 
 import static chkr.C.Obj;
 import static chkr.C.Or;
 import static chkr.T.*;
+import static util.ObjChkrUtil.parseError;
 
-public class Test2 {
-    public static void main(String[] args) throws Exception {
+public class TestObj {
+    public static void main(String[] args) {
 
         Object before = Map.of(
                 "userId", 123,
@@ -37,8 +37,8 @@ public class Test2 {
                         )
                 )
         );
-        CheckedValue a = c.check(before);
+        CheckedValue after = c.check(before);
 
-        System.out.println(Arrays.toString(a.getPath().toArray()));
+        System.out.println(parseError(after.getPath()));
     }
 }

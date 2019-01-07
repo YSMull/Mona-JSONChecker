@@ -7,7 +7,6 @@ import util.ObjChkrUtil;
 import java.util.*;
 
 import static type.CheckedValue.*;
-import static util.ObjChkrUtil.parseError;
 
 public class C {
 
@@ -45,7 +44,7 @@ public class C {
             if (matchOne) {
                 return result;
             } else {
-                return fail(String.join(" $$$ ", allSubErrMsgs));
+                return fail(String.join("$$$and$$$", allSubErrMsgs));
             }
         }, T.Any);
     }

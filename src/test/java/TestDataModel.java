@@ -1,15 +1,14 @@
 import chkr.Chkr;
-import com.alibaba.fastjson.JSON;
 import type.CheckedValue;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static chkr.C.*;
 import static chkr.T.*;
+import static util.ObjChkrUtil.parseError;
 
-public class Test3 {
+public class TestDataModel {
     public static void main(String[] args) {
 
         Object data = Map.of(
@@ -53,6 +52,6 @@ public class Test3 {
         );
 
         CheckedValue after = checker.check(data);
-        System.out.println(JSON.toJSONString(after.getPath(), true));
+        System.out.println(parseError(after.getPath()));
     }
 }

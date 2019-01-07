@@ -34,11 +34,11 @@ public class Chkr {
     // A little util for the real chkr generator --- compose
     public static Chkr judge(Predicate<Object> p, Chkr parentChkr, String errMsg) {
         return compose((value) -> {
-             if (p.test(value)) {
-                 return pure(value);
-             } else {
-                 return fail("{{ " + (value == null ? "null" : JSON.toJSONString(value)) + " }} " + errMsg);
-             }
+            if (p.test(value)) {
+                return pure(value);
+            } else {
+                return fail("{{ " + (value == null ? "null" : JSON.toJSONString(value)) + " }} " + errMsg);
+            }
         }, parentChkr);
     }
 }

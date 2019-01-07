@@ -1,4 +1,4 @@
-package type;
+package cn.ysmul.type;
 
 import java.util.ArrayList;
 import java.util.List;

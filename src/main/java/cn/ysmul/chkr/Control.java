@@ -1,14 +1,15 @@
-package chkr;
+package cn.ysmul.chkr;
 
+import cn.ysmul.chkr.core.Chkr;
+import cn.ysmul.util.ObjChkrUtil;
 import com.alibaba.fastjson.JSON;
-import type.CheckedValue;
-import util.ObjChkrUtil;
+import cn.ysmul.type.CheckedValue;
 
 import java.util.*;
 
-import static type.CheckedValue.*;
+import static cn.ysmul.type.CheckedValue.*;
 
-public class C {
+public class Control {
 
     public static Chkr Mixin(Chkr... chkrs) {
         return Chkr.compose(objMap -> {
@@ -23,30 +24,7 @@ public class C {
                 }
             }
             return pure(filterMap);
-        }, T.Any);
-    }
-
-    public static Chkr Or(Chkr... chkrs) {
-        return Chkr.compose(value -> {
-            boolean matchOne = false;
-            CheckedValue result = null;
-            List<String> allSubErrMsgs = new ArrayList<>();
-            for (Chkr chkr : chkrs) {
-                // filter
-                result = chkr.check(value);
-                if (CheckedValue.isFail(result)) {
-                    allSubErrMsgs.addAll(result.getPath());
-                } else {
-                    matchOne = true;
-                    break;
-                }
-            }
-            if (matchOne) {
-                return result;
-            } else {
-                return fail(String.join("$$$and$$$", allSubErrMsgs));
-            }
-        }, T.Any);
+        }, BasicType.Any);
     }
 
     public static Chkr Obj(Object... args) {
@@ -69,7 +47,30 @@ public class C {
                 }
             }
             return CheckedValue.pure(filterMap);
-        }, T.Any);
+        }, BasicType.Any);
+    }
+
+    public static Chkr Or(Chkr... chkrs) {
+        return Chkr.compose(value -> {
+            boolean matchOne = false;
+            CheckedValue result = null;
+            List<String> allSubErrMsgs = new ArrayList<>();
+            for (Chkr chkr : chkrs) {
+                // filter
+                result = chkr.check(value);
+                if (CheckedValue.isFail(result)) {
+                    allSubErrMsgs.addAll(result.getPath());
+                } else {
+                    matchOne = true;
+                    break;
+                }
+            }
+            if (matchOne) {
+                return result;
+            } else {
+                return fail(String.join("$$$and$$$", allSubErrMsgs));
+            }
+        }, BasicType.Any);
     }
 
     public static Chkr Arr(Chkr typeChkr) {

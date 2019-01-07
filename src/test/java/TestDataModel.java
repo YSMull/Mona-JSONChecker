@@ -1,12 +1,12 @@
-import chkr.Chkr;
-import type.CheckedValue;
+import cn.ysmul.chkr.core.Chkr;
+import cn.ysmul.type.CheckedValue;
 
 import java.util.List;
 import java.util.Map;
 
-import static chkr.C.*;
-import static chkr.T.*;
-import static util.ObjChkrUtil.parseError;
+import static cn.ysmul.chkr.Control.*;
+import static cn.ysmul.chkr.BasicType.*;
+import static cn.ysmul.util.ObjChkrUtil.parseError;
 
 public class TestDataModel {
     public static void main(String[] args) {

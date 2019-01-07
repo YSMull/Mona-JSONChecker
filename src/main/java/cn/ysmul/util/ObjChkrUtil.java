@@ -1,6 +1,6 @@
-package util;
+package cn.ysmul.util;
 
-import chkr.Chkr;
+import cn.ysmul.chkr.core.Chkr;
 
 import java.util.*;
 

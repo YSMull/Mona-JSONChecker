@@ -1,8 +1,8 @@
-import static chkr.C.*;
-import static chkr.T.*;
-import static util.DefUtil.kv;
-import static util.DefUtil.list;
-import static util.ObjChkrUtil.parseError;
+import static cn.ysmul.chkr.Control.*;
+import static cn.ysmul.chkr.BasicType.*;
+import static cn.ysmul.util.DefUtil.kv;
+import static cn.ysmul.util.DefUtil.list;
+import static cn.ysmul.util.ObjChkrUtil.parseError;
 
 public class TestComplex {
 

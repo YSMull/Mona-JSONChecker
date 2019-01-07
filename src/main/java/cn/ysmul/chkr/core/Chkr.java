@@ -1,13 +1,13 @@
-package chkr;
+package cn.ysmul.chkr.core;
 
 import com.alibaba.fastjson.JSON;
-import type.CheckedValue;
+import cn.ysmul.type.CheckedValue;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import static type.CheckedValue.fail;
-import static type.CheckedValue.pure;
+import static cn.ysmul.type.CheckedValue.fail;
+import static cn.ysmul.type.CheckedValue.pure;
 
 public class Chkr {
 
@@ -31,7 +31,7 @@ public class Chkr {
         return new Chkr(value -> parentChkr.check(value).bind(checkFn));
     }
 
-    // A little util for the real chkr generator --- compose
+    // A little cn.ysmul.util for the real cn.ysmul.chkr generator --- compose
     public static Chkr judge(Predicate<Object> p, Chkr parentChkr, String errMsg) {
         return compose((value) -> {
             if (p.test(value)) {

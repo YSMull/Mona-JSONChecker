@@ -1,9 +1,9 @@
-import type.CheckedValue;
+import cn.ysmul.type.CheckedValue;
 
 import java.util.Arrays;
 
-import static chkr.C.Or;
-import static chkr.T.*;
+import static cn.ysmul.chkr.Control.*;
+import static cn.ysmul.chkr.BasicType.*;
 
 public class TestBasicType {
     public static void main(String[] args) {

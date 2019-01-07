@@ -1,15 +1,16 @@
-package chkr;
+package cn.ysmul.chkr;
 
+import cn.ysmul.chkr.core.Chkr;
 import com.alibaba.fastjson.JSON;
 
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static type.CheckedValue.fail;
-import static type.CheckedValue.pure;
+import static cn.ysmul.type.CheckedValue.fail;
+import static cn.ysmul.type.CheckedValue.pure;
 
-public class T {
+public class BasicType {
 
     public static Chkr Any = Chkr.judge(Objects::nonNull, Chkr.id, "is null");
 

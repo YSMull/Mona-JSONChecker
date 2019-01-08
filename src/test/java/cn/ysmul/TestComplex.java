@@ -38,7 +38,7 @@ public class TestComplex {
 
         var after = chkr.check(object);
 
-        System.out.println(parseError(list(after.getPath().get(0))));
+//        System.out.println(parseError(list(after.getPath().get(0))));
         System.out.println(parseError(after.getPath()));
 
     }

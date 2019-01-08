@@ -4,6 +4,8 @@ import cn.ysmul.chkr.core.Chkr;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class ChkrUtil {
 
@@ -28,30 +30,37 @@ public class ChkrUtil {
     todo: 需要有分裂逻辑在里面，每一个item，只要有$$$and$$$就应该分裂，并且复用之前的部分
      */
     public static String parseError(List<String> path) {
-        if (path.size() == 1) {
-            String e = path.get(0);
-            List<String> p = Arrays.asList(e.split("\\$\\$\\$and\\$\\$\\$"));
-            return parseError(p);
-        } else {
-            List<List<String>> errors = new ArrayList<>();
-            List<String> error = new ArrayList<>();
-            for (int i = path.size() - 1; i >= 0; i--) {
-                if (path.get(i).startsWith("{{")) {
-                    error.add(" = " + path.get(i));
+        Collections.reverse(path);
+        List<List<String>> errors = new ArrayList<>();
+        List<String> error = new ArrayList<>();
+        for (var p : path) {
+            if (p.startsWith("{{")) {
+                if (p.contains("$$$and$$$")) {
+                    var result = parseError(Arrays.asList(p.split("\\$\\$\\$and\\$\\$\\$")));
+                    var partR = reverse(result.split("\n"));
+                    String result1 = "";
+                    for (String part: partR) {
+                        result1 += String.join(".", tail(path)) + "." + part + "\n";
+                    }
+                    return result1.replaceAll("\\.\\[", "[").replaceAll("\\. =", " =").replaceAll("^\\.", "").replaceAll("\\n\\.", "\n");
+                } else {
+                    error.add(" = " + p);
                     errors.add(error);
                     error = new ArrayList<>();
-                } else {
-                    error.add(path.get(i));
                 }
+            } else {
+                error.add(p);
             }
-            Collections.reverse(errors);
-
-            StringBuilder result = new StringBuilder();
-            for (List<String> e : errors) {
-                result.append(String.join(".", e).replaceAll("\\.\\[", "[").replaceAll("\\. =", " =").replaceAll("\\$\\$\\$and\\$\\$\\$", " and ")).append("\n");
-            }
-            return result.toString();
         }
+//        Collections.reverse(errors);
+
+        List<String> result = new ArrayList<>();
+
+        for (List<String> e : errors) {
+            result.add(String.join(".", e).replaceAll("\\.\\[", "[").replaceAll("\\. =", " =").replaceAll("\\$\\$\\$and\\$\\$\\$", " and "));
+        }
+        return String.join("\n",result);
+
     }
 
     public static <A> boolean all(List<A> list, Predicate<A> p) {
@@ -61,6 +70,20 @@ public class ChkrUtil {
             }
         }
         return true;
+    }
+
+    public static <A> List<A> tail(List<A> list) {
+        var newList = new ArrayList<A>();
+        for (int i = 0; i < list.size()-1; i++) {
+            newList.add(list.get(i));
+        }
+        return newList;
+    }
+
+    public static String[] reverse(String[] arr) {
+        List<String> list = Arrays.asList(arr);
+        Collections.reverse(list);
+        return list.toArray(new String[0]);
     }
 
     public static <A> List<A> single(A item) {

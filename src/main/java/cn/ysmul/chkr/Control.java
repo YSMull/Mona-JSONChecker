@@ -92,7 +92,7 @@ public class Control {
 
     public static Chkr Optional(Chkr typeChkr) {
         return Chkr.compose(object -> {
-            if (object == null) return null;
+            if (object == null) return pure(null);
             return typeChkr.check(object);
         }, Chkr.id);
     }

@@ -23,7 +23,7 @@ public class BasicType {
         }
     }, Any, "is not Num");
 
-    public static Chkr StrictNum = Chkr.judge(v -> v instanceof Number, Any, "is not a StrictNum");
+    public static Chkr StrictNum = Chkr.judge(v -> v instanceof Number, Any, "is not StrictNum");
 
     public static Chkr Str = Chkr.judge(v -> v instanceof String, Any, "is not Str");
 
@@ -32,7 +32,7 @@ public class BasicType {
         return t.equals("false") || t.equals("true");
     }, Any, "is not Bool");
 
-    public static Chkr StrictBool = Chkr.judge(v -> v instanceof Boolean, Any, "is not a StrictBool");
+    public static Chkr StrictBool = Chkr.judge(v -> v instanceof Boolean, Any, "is not StrictBool");
 
     public static Chkr OrVal(Object... args) {
         return Chkr.compose(value -> {

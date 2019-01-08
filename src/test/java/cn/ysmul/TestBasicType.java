@@ -1,3 +1,5 @@
+package cn.ysmul;
+
 import cn.ysmul.type.CheckedValue;
 
 import java.util.Arrays;

@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static cn.ysmul.util.ObjChkrUtil.checkArgNum;
+import static cn.ysmul.util.ChkrUtil.checkArgNum;
 
 public class DefUtil {
     public static Map<String, Object> kv(Object ...args) {

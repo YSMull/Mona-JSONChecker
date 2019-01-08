@@ -31,7 +31,7 @@ public class Chkr {
         return new Chkr(value -> parentChkr.check(value).bind(checkFn));
     }
 
-    // A little cn.ysmul.util for the real cn.ysmul.chkr generator --- compose
+    // A little util for the real cn.ysmul.chkr generator --- compose
     public static Chkr judge(Predicate<Object> p, Chkr parentChkr, String errMsg) {
         return compose((value) -> {
             if (p.test(value)) {

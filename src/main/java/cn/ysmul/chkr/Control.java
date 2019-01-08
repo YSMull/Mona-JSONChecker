@@ -1,7 +1,7 @@
 package cn.ysmul.chkr;
 
 import cn.ysmul.chkr.core.Chkr;
-import cn.ysmul.util.ObjChkrUtil;
+import cn.ysmul.util.ChkrUtil;
 import com.alibaba.fastjson.JSON;
 import cn.ysmul.type.CheckedValue;
 
@@ -28,7 +28,7 @@ public class Control {
     }
 
     public static Chkr Obj(Object... args) {
-        Map<String, Chkr> chkrMap = ObjChkrUtil.parseChkrMap(args);
+        Map<String, Chkr> chkrMap = ChkrUtil.parseChkrMap(args);
         if (chkrMap == null || chkrMap.size() == 0) return null;
         return Chkr.compose(value -> {
             if (!(value instanceof Map)) {
@@ -50,6 +50,7 @@ public class Control {
         }, BasicType.Any);
     }
 
+    // 必须是同种类的chkr
     public static Chkr Or(Chkr... chkrs) {
         return Chkr.compose(value -> {
             boolean matchOne = false;

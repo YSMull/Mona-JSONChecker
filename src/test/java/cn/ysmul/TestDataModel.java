@@ -1,3 +1,5 @@
+package cn.ysmul;
+
 import cn.ysmul.chkr.core.Chkr;
 import cn.ysmul.type.CheckedValue;
 
@@ -6,7 +8,7 @@ import java.util.Map;
 
 import static cn.ysmul.chkr.Control.*;
 import static cn.ysmul.chkr.BasicType.*;
-import static cn.ysmul.util.ObjChkrUtil.parseError;
+import static cn.ysmul.util.ChkrUtil.parseError;
 
 public class TestDataModel {
     public static void main(String[] args) {

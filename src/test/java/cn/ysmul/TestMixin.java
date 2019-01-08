@@ -1,10 +1,12 @@
+package cn.ysmul;
+
 import cn.ysmul.type.CheckedValue;
 
 import static cn.ysmul.chkr.Control.*;
 import static cn.ysmul.chkr.BasicType.*;
 import static cn.ysmul.util.DefUtil.kv;
 import static cn.ysmul.util.DefUtil.list;
-import static cn.ysmul.util.ObjChkrUtil.parseError;
+import static cn.ysmul.util.ChkrUtil.parseError;
 
 public class TestMixin {
     public static void main(String[] args) {

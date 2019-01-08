@@ -3,8 +3,9 @@ package cn.ysmul.util;
 import cn.ysmul.chkr.core.Chkr;
 
 import java.util.*;
+import java.util.function.Predicate;
 
-public class ObjChkrUtil {
+public class ChkrUtil {
 
     public static void checkArgNum(Object[] args) {
         if (args == null || args.length == 0 || args.length % 2 == 1) {
@@ -23,6 +24,9 @@ public class ObjChkrUtil {
         return m;
     }
 
+    /*
+    todo: 需要有分裂逻辑在里面，每一个item，只要有$$$and$$$就应该分裂，并且复用之前的部分
+     */
     public static String parseError(List<String> path) {
         if (path.size() == 1) {
             String e = path.get(0);
@@ -48,6 +52,15 @@ public class ObjChkrUtil {
             }
             return result.toString();
         }
+    }
+
+    public static <A> boolean all(List<A> list, Predicate<A> p) {
+        for (A item: list) {
+            if (!p.test(item)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static <A> List<A> single(A item) {

@@ -1,8 +1,10 @@
+package cn.ysmul;
+
 import static cn.ysmul.chkr.Control.*;
 import static cn.ysmul.chkr.BasicType.*;
 import static cn.ysmul.util.DefUtil.kv;
 import static cn.ysmul.util.DefUtil.list;
-import static cn.ysmul.util.ObjChkrUtil.parseError;
+import static cn.ysmul.util.ChkrUtil.parseError;
 
 public class TestComplex {
 
@@ -27,9 +29,7 @@ public class TestComplex {
                 "b", Obj(
                     "c", Arr(Obj(
                         "d", Obj(
-                            "e", Or(Bool, Str, Obj(
-                                "f", Arr(StrictNum)
-                            ))
+                            "e", Or(Obj("aa", Num), Obj("bb", Str))
                         )
                     ))
                 )

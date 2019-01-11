@@ -1,5 +1,7 @@
 package cn.ysmul;
 
+import cn.ysmul.chkr.core.Chkr;
+
 import static cn.ysmul.chkr.Control.*;
 import static cn.ysmul.chkr.BasicType.*;
 import static cn.ysmul.util.DefUtil.kv;
@@ -12,27 +14,26 @@ public class TestComplex {
 
         var object = kv(
             "a", kv(
-                "b", kv(
-                    "c", list(kv(
+                "b", list(kv(
+                    "c", kv(
                         "d", kv(
-                            "e", kv(
-                                "f", list(1, "2", 3, 4)
-                            )
+                            "e", "2"
                         )
-                    ))
-                )
+                    )
+                ))
             )
         );
-
+        Chkr NumOne = Chkr.judge(v -> v == Integer.valueOf(1), Any, "is not One");
         var chkr = Obj(
             "a", Obj(
-                "b", Obj(
-                    "c", Arr(Obj(
-                        "d", Obj(
-                            "e", Or(Obj("aa", Num), Obj("bb", Str))
+                "b", Arr(Obj(
+                    "c", Obj(
+                        "d", Or(
+                            Obj("e", Or(StrictBool, Bool)),
+                            Obj("e", Or(NumOne, StrictNum))
                         )
-                    ))
-                )
+                    )
+                ))
             )
         );
 

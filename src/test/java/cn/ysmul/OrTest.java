@@ -13,24 +13,13 @@ public class OrTest {
         var data = Map.of(
             "a", Map.of(
                 "b", "a"
-            ),
-            "c", "1"
+            )
         );
-
-        Chkr One = Chkr.judge(v -> v == "1", Any, "is not One");
-
+        Chkr StrOne = Chkr.judge(v -> v == "1", Any, "is not One");
         var chkr = Mixin(
-            Or(
-                Obj("c", One)
-            ),
             Obj(
-                "a", Mixin(
-                    Obj(
-                        "b", Or(Or(Or(Or(StrictNum, StrictBool)), Or(One), Or(Or(Num, Bool))))
-                    ),
-                    Or(StrictNum, StrictBool, Num, Bool),
-                    Or(StrictNum, StrictBool, Num, Bool),
-                    Or(StrictNum, StrictBool, Num, Bool)
+                "a", Obj(
+                    "b", Or(Or(Or(Or(StrictNum, Or(StrictBool, Obj("c",StrictNum)))), Or(StrOne), Or(Or(Num, Bool))))
                 )
             )
         );

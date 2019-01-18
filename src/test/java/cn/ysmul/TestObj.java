@@ -4,6 +4,7 @@ import cn.ysmul.chkr.core.Chkr;
 import cn.ysmul.type.CheckedValue;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static cn.ysmul.chkr.Control.*;
 import static cn.ysmul.chkr.BasicType.*;
@@ -38,8 +39,11 @@ public class TestObj {
                 )
             )
         );
+        long start = System.nanoTime();
         CheckedValue after = c.check(before);
+        long end = System.nanoTime();
 
+        System.out.println(TimeUnit.NANOSECONDS.toMillis(end - start));
         System.out.println(parseError(after.getPath()));
     }
 }

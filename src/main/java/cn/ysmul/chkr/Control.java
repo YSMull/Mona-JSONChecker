@@ -18,7 +18,7 @@ public class Control {
             for (Chkr chkr : chkrs) {
                 CheckedValue result = chkr.check(objectMap);
                 if (isFail(result)) {
-                    return result;
+                    return result; // todo: fail
                 } else {
                     filterMap.putAll((Map<String, Object>) result.getJustValue());
                 }

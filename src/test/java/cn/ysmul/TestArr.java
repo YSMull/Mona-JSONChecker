@@ -1,7 +1,10 @@
 package cn.ysmul;
 
+import cn.ysmul.type.CheckedValue;
+
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static cn.ysmul.chkr.Control.*;
 import static cn.ysmul.chkr.BasicType.*;
@@ -22,7 +25,12 @@ public class TestArr {
             )
         );
 
-        var after = chkr.check(data);
-        System.out.println(parseError(after.getPath()));
+        for (int i = 0; i < 10; i++) {
+            long start = System.nanoTime();
+            var after = chkr.check(data);
+            long end = System.nanoTime();
+            System.out.println(TimeUnit.NANOSECONDS.toMicros(end - start));
+//            System.out.println(parseError(after.getPath()));
+        }
     }
 }

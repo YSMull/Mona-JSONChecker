@@ -2,6 +2,8 @@ package cn.ysmul;
 
 import cn.ysmul.chkr.core.Chkr;
 
+import java.util.concurrent.TimeUnit;
+
 import static cn.ysmul.chkr.Control.*;
 import static cn.ysmul.chkr.BasicType.*;
 import static cn.ysmul.util.DefUtil.kv;
@@ -37,10 +39,15 @@ public class TestComplex {
             )
         );
 
-        var after = chkr.check(object);
-
+        for (int i = 0; i < 10; i++) {
+            long start = System.nanoTime();
+            var after = chkr.check(object);
+            long end = System.nanoTime();
+            System.out.println(TimeUnit.NANOSECONDS.toMicros(end - start));
+//            System.out.println(parseError(after.getPath()));
+        }
 //        System.out.println(parseError(list(after.getPath().get(0))));
-        System.out.println(parseError(after.getPath()));
+//        System.out.println(parseError(after.getPath()));
 
     }
 }

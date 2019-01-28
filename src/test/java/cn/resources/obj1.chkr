@@ -1,0 +1,12 @@
+{
+    "userId": Num,
+    "userName": Str,
+    "address": {
+        "id": Num,
+        "person": {
+            "id": Num,
+            "age": Num,
+            "t": Num
+        }
+    }
+}

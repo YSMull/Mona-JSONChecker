@@ -1,4 +1,4 @@
-package cn.ysmul;
+package cn.ysmul.chkr;
 
 import cn.ysmul.chkr.core.Chkr;
 

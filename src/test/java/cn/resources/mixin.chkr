@@ -1,0 +1,29 @@
+Mixin(
+    {
+        "reports": [{
+            "id": Num,
+            "title": Str,
+            "relatedDataModelIds": [Num]
+        }]
+    },
+    Or(
+        {
+            "a": Num,
+            "b": Num
+        },
+        {
+            "a": Str,
+            "b": {
+                "b1": Num,
+                "b2": Str
+            }
+        },
+        {
+            "a": Str,
+            "b": {
+                "b1": Bool,
+                "b2": Bool
+            }
+        }
+    )
+)

@@ -1,4 +1,4 @@
-package cn.ysmul;
+package cn.ysmul.chkr;
 
 import cn.ysmul.chkr.core.Chkr;
 import cn.ysmul.type.CheckedValue;
@@ -24,7 +24,7 @@ public class TestDataModel {
             "dataModels", List.of(
                 Map.of(
                     "status", "extract",
-                    "relatedDataConnectionIds", List.of(1, 2, "123")
+                    "relatedDataConnectionIds", List.of(1, 2, "a")
                 )
             )
         );
@@ -41,7 +41,7 @@ public class TestDataModel {
                 Obj(
                     "dataModels", Arr(Obj(
                         "status", OrVal("extract", "direct"),
-                        "relatedDataConnectionIds", Arr(StrictNum)
+                        "relatedDataConnectionIds", Arr(Num)
                     ))
                 ),
                 Obj(

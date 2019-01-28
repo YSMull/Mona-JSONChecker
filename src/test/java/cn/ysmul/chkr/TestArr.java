@@ -1,6 +1,4 @@
-package cn.ysmul;
-
-import cn.ysmul.type.CheckedValue;
+package cn.ysmul.chkr;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +28,7 @@ public class TestArr {
             var after = chkr.check(data);
             long end = System.nanoTime();
             System.out.println(TimeUnit.NANOSECONDS.toMicros(end - start));
-//            System.out.println(parseError(after.getPath()));
+            System.out.println(parseError(after.getPath()));
         }
     }
 }

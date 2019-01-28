@@ -1,4 +1,4 @@
-package cn.ysmul;
+package cn.ysmul.chkr;
 
 import cn.ysmul.type.CheckedValue;
 
@@ -25,7 +25,7 @@ public class TestMixin {
             ),
             "a", "123",
             "b", kv(
-                "b1", "123",
+                "b1", "123a",
                 "b2", "false"
             )
         );
@@ -46,7 +46,7 @@ public class TestMixin {
                 Obj(
                     "a", Str,
                     "b", Obj(
-                        "b1", StrictNum,
+                        "b1", Num,
                         "b2", Str
                     )
                 ),
@@ -54,7 +54,7 @@ public class TestMixin {
                     "a", Str,
                     "b", Obj(
                         "b1", Num,
-                        "b2", StrictBool
+                        "b2", Bool
                     )
                 )
             )

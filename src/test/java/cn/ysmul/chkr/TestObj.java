@@ -1,4 +1,4 @@
-package cn.ysmul;
+package cn.ysmul.chkr;
 
 import cn.ysmul.chkr.core.Chkr;
 import cn.ysmul.type.CheckedValue;
@@ -35,7 +35,7 @@ public class TestObj {
                 "person", Obj(
                     "id", Num,
                     "age", Num,
-                    "t", Or(Bool, Num)
+                    "t", Num
                 )
             )
         );

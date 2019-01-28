@@ -1,0 +1,23 @@
+Mixin (
+    {
+        "reports": [{
+            "id": Num,
+            "title": Str,
+            "relatedDataModelIds": [Num]
+        }]
+    },
+    Or (
+        {
+            "dataModels": [{
+                "status": OrVal("extract", "direct"),
+                "relatedDataConnectionIds": [Num]
+            }]
+        },
+        {
+            "dataModels": [{
+                "status": OrVal("extract", "direct"),
+                "relatedTableExtractIds": [Num]
+            }]
+        }
+    )
+)

@@ -12,7 +12,7 @@ import static cn.ysmul.util.ChkrUtil.parseError;
 public class Test {
     public static void main(String[] args) {
         String str = FileUtil.readFile("/Users/ysmull/workstation/Java_Project/fpchkr/src/test/java/cn/resources/obj1.chkr");
-        System.out.println(str);
+//        System.out.println(str);
         ChkrLexer lexer = new ChkrLexer(str);
         ChkrParser parser = new ChkrParser(lexer);
         Chkr o = parser.value(); // begin parsing at rule list
@@ -32,11 +32,11 @@ public class Test {
             )
         );
 
-        System.out.println();
-        System.out.println(JSON.toJSONString(before, true));
+//        System.out.println();
+//        System.out.println(JSON.toJSONString(before, true));
         CheckedValue after = o.check(before);
 
-        System.out.println(parseError(after.getPath()));
+//        System.out.println(parseError(after.getPath()));
 
     }
 }

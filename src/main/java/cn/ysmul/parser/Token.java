@@ -8,7 +8,7 @@ public class Token {
     public Token(ChkrLexer.TokenEnum type, String text) {
         this.type = type;
         this.text = text;
-        System.out.print(text);
+//        System.out.print(text);
     }
 
     public String toString() {

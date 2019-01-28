@@ -22,22 +22,33 @@ public class ChkrParser extends Parser {
         }
 
         if (lookahead.type == NUM_C) {
+            System.out.print("t.Num");
             match(NUM_C);
             return Num;
         }
 
         if (lookahead.type == STR_C) {
+            System.out.print("t.Str");
             match(STR_C);
             return Str;
         }
 
         if (lookahead.type == BOOL_C) {
+            System.out.print("t.Bool");
             match(BOOL_C);
             return Bool;
         }
 
         if (lookahead.type == MIXIN_C || lookahead.type == OR_C) {
             ChkrLexer.TokenEnum t = lookahead.type;
+            switch (lookahead.type) {
+                case OR_C:
+                    System.out.print("c.Or");
+                    break;
+                case MIXIN_C:
+                    System.out.print("c.Extend");
+                    break;
+            }
             match(lookahead.type);
             return listOfChkr(t);
         }
@@ -55,39 +66,49 @@ public class ChkrParser extends Parser {
     }
 
     private Chkr object() {
+        System.out.print("c.Obj({\n");
         match(LBRACE);
         boolean done = false;
         List<Object> params = new ArrayList<>();
         do {
             if (lookahead.type == STRING) {
-                String key = lookahead.text;
-                params.add(key.replaceAll("(^\"|\"$)", ""));
+                String key = lookahead.text.replaceAll("(^\"|\"$)", "");
+                params.add(key);
                 match(STRING);
+                System.out.print("'" + key + "'");
                 match(COLON);
+                System.out.print(": ");
                 params.add(value());
+
             }
             if (lookahead.type == COMMA) {
+                System.out.print(",\n");
                 consume();
             } else {
+                System.out.print("\n");
                 done = true;
             }
         } while (!done);
         match(RBRACE);
+        System.out.print("})");
         return Obj(params.toArray());
     }
 
     private Chkr listOfChkr(ChkrLexer.TokenEnum type) {
+        System.out.println("(");
         match(LPARAEN);
         boolean done = false;
         List<Chkr> params = new ArrayList<>();
         do {
             params.add(value());
             if (lookahead.type == COMMA) {
+                System.out.print(",\n");
                 consume();
             } else {
                 done = true;
             }
         } while (!done);
+        System.out.print("\n)");
         match(RPARAEN);
         switch (type) {
             case MIXIN_C:
@@ -102,20 +123,24 @@ public class ChkrParser extends Parser {
 
     private Chkr arr() {
         match(LBRACK);
+        System.out.print("c.Arr(");
         Chkr value = value();
         match(RBRACK);
+        System.out.print(")");
         return Arr(value);
     }
 
     private Chkr orVal() {
         match(LPARAEN);
+        System.out.print("c.OrVal(");
         boolean done = false;
         List<Object> params = new ArrayList<>();
         do {
 
             switch (lookahead.type) {
                 case STRING:
-                    params.add(lookahead.text.replaceAll("(^\"|\"$)", ""));
+                    lookahead.text = lookahead.text.replaceAll("(^\"|\"$)", "'");
+                    params.add(lookahead.text);
                     break;
                 case NUMBER:
                     params.add(Double.valueOf(lookahead.text));
@@ -125,15 +150,18 @@ public class ChkrParser extends Parser {
                     params.add(Boolean.valueOf(lookahead.text));
                     break;
             }
+            System.out.print(lookahead.text);
             match(lookahead.type);
 
             if (lookahead.type == COMMA) {
                 consume();
+                System.out.print(",");
             } else {
                 done = true;
             }
         } while (!done);
         match(RPARAEN);
+        System.out.print(")");
         return OrVal(params.toArray());
     }
 }
